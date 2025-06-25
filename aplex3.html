@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Web Skills Demo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #f6f8fd, #e1ecf4);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 30px;
+    }
+
+    .section {
+      background-color: #ffffff;
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .section h2 {
+      color: #1abc9c;
+      margin-bottom: 15px;
+    }
+
+    .question {
+      font-weight: bold;
+      margin: 15px 0 10px;
+    }
+
+    .quiz-btn {
+      display: inline-block;
+      margin: 6px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .quiz-btn:hover {
+      background-color: #2980b9;
+    }
+
+    .feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    #joke-output {
+      margin-top: 15px;
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 22px;
+      }
+
+      .quiz-btn {
+        display: block;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>🚀 Interactive Web Skills Demo</h1>
+
+    <!-- Quiz Section -->
+    <div class="section">
+      <h2>🧠 Quiz: General Knowledge</h2>
+      <div class="question">What is the capital of France?</div>
+      <button class="quiz-btn" onclick="checkAnswer('Paris', 'feedback1')">Paris</button>
+      <button class="quiz-btn" onclick="checkAnswer('London', 'feedback1')">London</button>
+      <button class="quiz-btn" onclick="checkAnswer('Berlin', 'feedback1')">Berlin</button>
+      <div class="feedback" id="feedback1"></div>
+    </div>
+
+    <div class="section">
+      <h2>📘 Quiz: JavaScript</h2>
+      <div class="question">What does `document.getElementById()` do?</div>
+      <button class="quiz-btn" onclick="checkAnswer('Selects an element by ID', 'feedback2')">Selects an element by ID</button>
+      <button class="quiz-btn" onclick="checkAnswer('Creates a new element', 'feedback2')">Creates a new element</button>
+      <button class="quiz-btn" onclick="checkAnswer('Deletes an element', 'feedback2')">Deletes an element</button>
+      <div class="feedback" id="feedback2"></div>
+    </div>
+
+    <div class="section">
+      <h2>🎨 Quiz: CSS</h2>
+      <div class="question">Which property is used to change text color?</div>
+      <button class="quiz-btn" onclick="checkAnswer('color', 'feedback3')">color</button>
+      <button class="quiz-btn" onclick="checkAnswer('font-style', 'feedback3')">font-style</button>
+      <button class="quiz-btn" onclick="checkAnswer('text-align', 'feedback3')">text-align</button>
+      <div class="feedback" id="feedback3"></div>
+    </div>
+
+    <!-- API Section -->
+    <div class="section">
+      <h2>🌐 Fetch a Random Joke</h2>
+      <button class="quiz-btn" onclick="getJoke()">Get a Joke</button>
+      <p id="joke-output"></p>
+    </div>
+  </div>
+
+  <script>
+    function checkAnswer(answer, feedbackId) {
+      const correctAnswers = {
+        feedback1: 'Paris',
+        feedback2: 'Selects an element by ID',
+        feedback3: 'color'
+      };
+
+      const feedback = document.getElementById(feedbackId);
+      if (answer === correctAnswers[feedbackId]) {
+        feedback.textContent = "✅ Correct!";
+        feedback.style.color = "green";
+      } else {
+        feedback.textContent = "❌ Incorrect. Try again!";
+        feedback.style.color = "red";
+      }
+    }
+
+    async function getJoke() {
+      const output = document.getElementById("joke-output");
+      output.textContent = "Loading...";
+      try {
+        const res = await fetch("https://official-joke-api.appspot.com/random_joke");
+        const data = await res.json();
+        output.textContent = `🗣️ ${data.setup} 🤔 ${data.punchline}`;
+      } catch (error) {
+        output.textContent = "❌ Failed to fetch joke.";
+      }
+    }
+  </script>
+
+</body>
+</html>
